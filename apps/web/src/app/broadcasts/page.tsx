@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 
 export default function BroadcastsPage() {
@@ -16,9 +17,14 @@ export default function BroadcastsPage() {
         <div className="space-y-6">
           {/* Brand Header with TechNexus Community Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
-              {/* Colorful Pinwheel Logo Mockup */}
-              <div className="w-full h-full rounded-full border-2 border-emerald-500 border-t-rose-500 border-r-amber-500 border-b-blue-500" />
+            <div className="w-10 h-10 rounded-full bg-white p-1 flex items-center justify-center shrink-0 overflow-hidden">
+              <Image
+                src="/logo-transparent.png"
+                alt="TechNexus Community logo"
+                width={36}
+                height={36}
+                priority
+              />
             </div>
             <div>
               <h2 className="font-bold text-white text-base leading-tight">
@@ -59,8 +65,8 @@ export default function BroadcastsPage() {
             LY
           </div>
           <div className="truncate">
-            <p className="text-xs font-bold text-white truncate">Lekhashree Y C</p>
-            <p className="text-[10px] text-blue-200 truncate">Workspace Lead</p>
+            <p className="text-xs font-bold text-white truncate">Admin</p>
+            <p className="text-[10px] text-blue-200 truncate">Workspace</p>
           </div>
         </div>
       </aside>
