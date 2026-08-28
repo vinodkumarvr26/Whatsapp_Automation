@@ -1,142 +1,154 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function BroadcastsPage() {
-  const [showModal, setShowModal] = useState(false);
+export default function BroadcastPage() {
+  // Hardcoded States for Templates
+  const [selectedTemplate, setSelectedTemplate] = useState("event_qr_pass");
+  const [selectedTag, setSelectedTag] = useState("all_attendees");
+  const [customMessage, setCustomMessage] = useState(
+    "Hello {{1}}! Here is your entry pass for {{2}}. Show this QR code at the entrance."
+  );
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8 text-slate-800 font-sans">
-      <div className="max-w-6xl mx-auto space-y-8">
-        {/* Module Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+    <div className="max-w-6xl mx-auto space-y-6 p-4">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-slate-800">
+          WhatsApp Campaign Broadcasts
+        </h1>
+        <p className="text-sm text-slate-500">
+          Create campaigns, select audience tags, preview WhatsApp templates, and dispatch broadcasts.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* LEFT PANEL: 1. Campaign Creation Interface & 2. Tag Selection Dropdowns */}
+        <div className="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+          <h2 className="text-lg font-bold text-slate-800 border-b pb-3 border-slate-100">
+            1. Campaign Setup
+          </h2>
+
+          {/* Campaign Name */}
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Broadcast Campaigns</h1>
-            <p className="text-sm text-slate-500 mt-1">
-              Create, schedule, and send automated WhatsApp bulk messages.
+            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
+              Campaign Name
+            </label>
+            <input
+              type="text"
+              defaultValue="Annual Tech Summit 2026 Pass"
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500"
+              placeholder="e.g. VIP Dinner Invitation"
+            />
+          </div>
+
+          {/* Tag Selection Dropdown */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
+              2. Select Audience Tag
+            </label>
+            <select
+              value={selectedTag}
+              onChange={(e) => setSelectedTag(e.target.value)}
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500 bg-white"
+            >
+              <option value="all_attendees">🏷️ Tag: All Registered Attendees (850)</option>
+              <option value="checked_in">🏷️ Tag: Checked-In Guests (420)</option>
+              <option value="vip_speakers">🏷️ Tag: VIP Speakers & Mentors (45)</option>
+              <option value="pending_rsvp">🏷️ Tag: Pending RSVPs (120)</option>
+            </select>
+          </div>
+
+          {/* Template Selection */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
+              Select Message Template
+            </label>
+            <select
+              value={selectedTemplate}
+              onChange={(e) => {
+                setSelectedTemplate(e.target.value);
+                if (e.target.value === "event_qr_pass") {
+                  setCustomMessage("Hello {{1}}! Here is your entry pass for {{2}}. Show this QR code at the entrance.");
+                } else if (e.target.value === "schedule_update") {
+                  setCustomMessage("Hi {{1}}, urgent update! Keynote session for {{2}} has been shifted to Hall B at 3:00 PM.");
+                } else {
+                  setCustomMessage("Hey {{1}}, thank you for attending {{2}}! Please rate your experience here: https://forms.gle/xyz");
+                }
+              }}
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500 bg-white"
+            >
+              <option value="event_qr_pass">Template: Event QR Ticket Pass</option>
+              <option value="schedule_update">Template: Urgent Schedule Alert</option>
+              <option value="feedback_survey">Template: Post-Event Feedback</option>
+            </select>
+          </div>
+
+          {/* Dynamic Template Variables */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
+              Template Body (Editable Variables)
+            </label>
+            <textarea
+              rows={4}
+              value={customMessage}
+              onChange={(e) => setCustomMessage(e.target.value)}
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500 text-slate-700"
+            />
+          </div>
+
+          {/* 4. Dispatch Buttons */}
+          <div className="pt-2 flex items-center gap-3">
+            <button
+              onClick={() => alert("Broadcast Dispatched to WhatsApp API!")}
+              className="flex-1 bg-[#4A90E2] hover:bg-blue-600 text-white font-medium py-3 rounded-xl shadow-sm text-sm transition-all"
+            >
+              🚀 Dispatch Broadcast Now
+            </button>
+            <button
+              onClick={() => alert("Campaign Scheduled Successfully!")}
+              className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition-all"
+            >
+              ⏱️ Schedule
+            </button>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL: 3. Message Template Previewer */}
+        <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-slate-800 border-b pb-3 border-slate-100 mb-4">
+              3. WhatsApp Message Previewer
+            </h2>
+            <p className="text-xs text-slate-500 mb-4">
+              Live hardcoded mockup of how this broadcast appears in recipient's WhatsApp chat:
             </p>
-          </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md active:scale-95"
-          >
-            + New Broadcast
-          </button>
-        </div>
 
-        {/* Campaign Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <div className="flex justify-between items-center text-slate-500 text-sm font-medium">
-              <span>Total Messages Sent</span>
-              <span className="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md text-xs font-semibold">+12%</span>
+            {/* WhatsApp Phone Mockup Screen */}
+            <div className="bg-[#E5DDD5] rounded-2xl p-4 border border-slate-300 min-h-[320px] shadow-inner flex flex-col justify-end">
+              <div className="bg-white rounded-xl p-3.5 shadow-sm max-w-[88%] space-y-2 border-l-4 border-[#25D366]">
+                <span className="text-[11px] font-bold text-[#25D366] uppercase tracking-wider block">
+                  Official WhatsApp Template
+                </span>
+                <p className="text-sm text-slate-800 whitespace-pre-wrap leading-relaxed">
+                  {customMessage
+                    .replace("{{1}}", "Rahul Sharma")
+                    .replace("{{2}}", "Annual Tech Summit 2026")}
+                </p>
+                <div className="flex justify-end items-center gap-1 text-[10px] text-slate-400">
+                  <span>14:32</span>
+                  <span className="text-blue-500 font-bold">✓✓</span>
+                </div>
+              </div>
             </div>
-            <p className="text-3xl font-extrabold text-slate-900 mt-3">2,845</p>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <div className="flex justify-between items-center text-slate-500 text-sm font-medium">
-              <span>Delivery Rate</span>
-              <span className="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md text-xs font-semibold">99.1%</span>
-            </div>
-            <p className="text-3xl font-extrabold text-emerald-600 mt-3">98.4%</p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <div className="flex justify-between items-center text-slate-500 text-sm font-medium">
-              <span>Active Campaigns</span>
-              <span className="text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md text-xs font-semibold font-mono">LIVE</span>
-            </div>
-            <p className="text-3xl font-extrabold text-slate-900 mt-3">4</p>
-          </div>
-        </div>
-
-        {/* Campaign Table */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-100 font-bold text-slate-800 text-lg">
-            Recent Broadcasts
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase text-xs font-semibold tracking-wider">
-                <tr>
-                  <th className="px-6 py-4">Campaign Name</th>
-                  <th className="px-6 py-4">Audience</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Date</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                <tr className="hover:bg-slate-50/80 transition">
-                  <td className="px-6 py-4 font-semibold text-slate-900">Promo Flash Sale</td>
-                  <td className="px-6 py-4 text-slate-600">VIP Customers (320)</td>
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-full">
-                      Completed
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">Today, 4:15 PM</td>
-                </tr>
-                <tr className="hover:bg-slate-50/80 transition">
-                  <td className="px-6 py-4 font-semibold text-slate-900">Weekly Newsletter</td>
-                  <td className="px-6 py-4 text-slate-600">All Leads (1,200)</td>
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-800 rounded-full">
-                      Scheduled
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">Tomorrow, 10:00 AM</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="mt-4 p-3 bg-blue-50 rounded-xl border border-blue-100 text-xs text-blue-700">
+            <strong>Target Tag:</strong> {selectedTag} <br />
+            <strong>Total Recipients:</strong> 850 Contacts
           </div>
         </div>
       </div>
-
-      {/* Creation Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl border border-slate-100">
-            <h3 className="text-xl font-bold text-slate-900">New Broadcast Campaign</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">
-                  Campaign Title
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. Festival Offer"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">
-                  Message Body
-                </label>
-                <textarea
-                  rows={3}
-                  placeholder="Type your broadcast message..."
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-                ></textarea>
-              </div>
-            </div>
-            <div className="flex justify-end gap-3 pt-2">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow transition"
-              >
-                Send Campaign
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
