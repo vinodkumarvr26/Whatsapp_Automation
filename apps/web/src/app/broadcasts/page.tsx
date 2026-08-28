@@ -2,153 +2,222 @@
 
 import React, { useState } from "react";
 
-export default function BroadcastPage() {
-  // Hardcoded States for Templates
-  const [selectedTemplate, setSelectedTemplate] = useState("event_qr_pass");
-  const [selectedTag, setSelectedTag] = useState("all_attendees");
-  const [customMessage, setCustomMessage] = useState(
-    "Hello {{1}}! Here is your entry pass for {{2}}. Show this QR code at the entrance."
-  );
+export default function BroadcastsPage() {
+  const [campaignName, setCampaignName] = useState("Annual Tech Summit 2026 Pass");
+  const [audienceTag, setAudienceTag] = useState("All Registered Attendees (850)");
+  const [selectedTemplate, setSelectedTemplate] = useState("Event QR Ticket Pass");
+  const [param1, setParam1] = useState("Rahul Sharma");
+  const [param2, setParam2] = useState("Annual Tech Summit 2026");
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 p-4">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-slate-800">
-          WhatsApp Campaign Broadcasts
-        </h1>
-        <p className="text-sm text-slate-500">
-          Create campaigns, select audience tags, preview WhatsApp templates, and dispatch broadcasts.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT PANEL: 1. Campaign Creation Interface & 2. Tag Selection Dropdowns */}
-        <div className="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
-          <h2 className="text-lg font-bold text-slate-800 border-b pb-3 border-slate-100">
-            1. Campaign Setup
-          </h2>
-
-          {/* Campaign Name */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-              Campaign Name
-            </label>
-            <input
-              type="text"
-              defaultValue="Annual Tech Summit 2026 Pass"
-              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500"
-              placeholder="e.g. VIP Dinner Invitation"
-            />
-          </div>
-
-          {/* Tag Selection Dropdown */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-              2. Select Audience Tag
-            </label>
-            <select
-              value={selectedTag}
-              onChange={(e) => setSelectedTag(e.target.value)}
-              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500 bg-white"
-            >
-              <option value="all_attendees">🏷️ Tag: All Registered Attendees (850)</option>
-              <option value="checked_in">🏷️ Tag: Checked-In Guests (420)</option>
-              <option value="vip_speakers">🏷️ Tag: VIP Speakers & Mentors (45)</option>
-              <option value="pending_rsvp">🏷️ Tag: Pending RSVPs (120)</option>
-            </select>
-          </div>
-
-          {/* Template Selection */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-              Select Message Template
-            </label>
-            <select
-              value={selectedTemplate}
-              onChange={(e) => {
-                setSelectedTemplate(e.target.value);
-                if (e.target.value === "event_qr_pass") {
-                  setCustomMessage("Hello {{1}}! Here is your entry pass for {{2}}. Show this QR code at the entrance.");
-                } else if (e.target.value === "schedule_update") {
-                  setCustomMessage("Hi {{1}}, urgent update! Keynote session for {{2}} has been shifted to Hall B at 3:00 PM.");
-                } else {
-                  setCustomMessage("Hey {{1}}, thank you for attending {{2}}! Please rate your experience here: https://forms.gle/xyz");
-                }
-              }}
-              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500 bg-white"
-            >
-              <option value="event_qr_pass">Template: Event QR Ticket Pass</option>
-              <option value="schedule_update">Template: Urgent Schedule Alert</option>
-              <option value="feedback_survey">Template: Post-Event Feedback</option>
-            </select>
-          </div>
-
-          {/* Dynamic Template Variables */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">
-              Template Body (Editable Variables)
-            </label>
-            <textarea
-              rows={4}
-              value={customMessage}
-              onChange={(e) => setCustomMessage(e.target.value)}
-              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-blue-500 text-slate-700"
-            />
-          </div>
-
-          {/* 4. Dispatch Buttons */}
-          <div className="pt-2 flex items-center gap-3">
-            <button
-              onClick={() => alert("Broadcast Dispatched to WhatsApp API!")}
-              className="flex-1 bg-[#4A90E2] hover:bg-blue-600 text-white font-medium py-3 rounded-xl shadow-sm text-sm transition-all"
-            >
-              🚀 Dispatch Broadcast Now
-            </button>
-            <button
-              onClick={() => alert("Campaign Scheduled Successfully!")}
-              className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition-all"
-            >
-              ⏱️ Schedule
-            </button>
-          </div>
-        </div>
-
-        {/* RIGHT PANEL: 3. Message Template Previewer */}
-        <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-slate-800 border-b pb-3 border-slate-100 mb-4">
-              3. WhatsApp Message Previewer
-            </h2>
-            <p className="text-xs text-slate-500 mb-4">
-              Live hardcoded mockup of how this broadcast appears in recipient's WhatsApp chat:
-            </p>
-
-            {/* WhatsApp Phone Mockup Screen */}
-            <div className="bg-[#E5DDD5] rounded-2xl p-4 border border-slate-300 min-h-[320px] shadow-inner flex flex-col justify-end">
-              <div className="bg-white rounded-xl p-3.5 shadow-sm max-w-[88%] space-y-2 border-l-4 border-[#25D366]">
-                <span className="text-[11px] font-bold text-[#25D366] uppercase tracking-wider block">
-                  Official WhatsApp Template
-                </span>
-                <p className="text-sm text-slate-800 whitespace-pre-wrap leading-relaxed">
-                  {customMessage
-                    .replace("{{1}}", "Rahul Sharma")
-                    .replace("{{2}}", "Annual Tech Summit 2026")}
-                </p>
-                <div className="flex justify-end items-center gap-1 text-[10px] text-slate-400">
-                  <span>14:32</span>
-                  <span className="text-blue-500 font-bold">✓✓</span>
-                </div>
-              </div>
+    <div className="flex min-h-screen bg-[#F5F2EB] text-slate-900 font-sans">
+      {/* Shared Navigation Sidebar - Deep Peacock Blue Theme */}
+      <aside className="w-64 bg-[#0F4C81] text-slate-100 flex flex-col justify-between p-5 shrink-0 hidden md:flex border-r border-[#1A5B6E]">
+        <div className="space-y-6">
+          {/* Brand Header with TechNexus Community Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
+              {/* Colorful Pinwheel Logo Mockup */}
+              <div className="w-full h-full rounded-full border-2 border-emerald-500 border-t-rose-500 border-r-amber-500 border-b-blue-500" />
+            </div>
+            <div>
+              <h2 className="font-bold text-white text-base leading-tight">
+                TechNexus Community
+              </h2>
+              <span className="text-[11px] text-blue-200 font-medium">
+                
+              </span>
             </div>
           </div>
 
-          <div className="mt-4 p-3 bg-blue-50 rounded-xl border border-blue-100 text-xs text-blue-700">
-            <strong>Target Tag:</strong> {selectedTag} <br />
-            <strong>Total Recipients:</strong> 850 Contacts
+          {/* Clean Navigation */}
+          <nav className="space-y-1.5 pt-2">
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-blue-100 hover:bg-[#1A5B6E] hover:text-white transition-all"
+            >
+              💬 Inbox
+            </a>
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-blue-100 hover:bg-[#1A5B6E] hover:text-white transition-all"
+            >
+              👥 Contacts
+            </a>
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-bold bg-[#1A5B6E] text-white shadow-sm border border-blue-400/30"
+            >
+              📢 Broadcasts
+            </a>
+          </nav>
+        </div>
+
+        {/* User Profile Footer */}
+        <div className="border-t border-blue-800/60 pt-4 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-xs text-white">
+            LY
+          </div>
+          <div className="truncate">
+            <p className="text-xs font-bold text-white truncate">Lekhashree Y C</p>
+            <p className="text-[10px] text-blue-200 truncate">Workspace Lead</p>
           </div>
         </div>
-      </div>
+      </aside>
+
+      {/* Main Content Workspace */}
+      <main className="flex-1 p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Simple Top Header (No robotic subtitles) */}
+        <div className="flex items-center justify-between border-b border-slate-300 pb-4">
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            WhatsApp Broadcasts
+          </h1>
+          <button className="bg-[#0F4C81] hover:bg-[#1A5B6E] text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-sm transition-all">
+            + New Campaign
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* LEFT: Campaign Configuration Form (Dark High-Contrast Inputs) */}
+          <div className="lg:col-span-7 bg-white p-6 rounded-2xl border-2 border-slate-300 shadow-sm space-y-5">
+            <h2 className="text-base font-bold text-slate-900 uppercase tracking-wider text-xs border-b border-slate-200 pb-2">
+              Campaign Configuration
+            </h2>
+
+            {/* Campaign Name */}
+            <div>
+              <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
+                Campaign Name
+              </label>
+              <input
+                type="text"
+                value={campaignName}
+                onChange={(e) => setCampaignName(e.target.value)}
+                className="w-full border-2 border-slate-800 bg-slate-50 text-slate-900 rounded-xl p-3 text-sm font-semibold outline-none focus:bg-white focus:ring-2 focus:ring-[#0F4C81] transition-all"
+              />
+            </div>
+
+            {/* Select Audience Tag */}
+            <div>
+              <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
+                Audience Segment
+              </label>
+              <select
+                value={audienceTag}
+                onChange={(e) => setAudienceTag(e.target.value)}
+                className="w-full border-2 border-slate-800 bg-slate-50 text-slate-900 rounded-xl p-3 text-sm font-semibold outline-none focus:bg-white focus:ring-2 focus:ring-[#0F4C81] transition-all"
+              >
+                <option>All Registered Attendees (850)</option>
+                <option>Checked-In Guests (420)</option>
+                <option>VIP Speakers (45)</option>
+              </select>
+            </div>
+
+            {/* Select Message Template */}
+            <div>
+              <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">
+                Message Template
+              </label>
+              <select
+                value={selectedTemplate}
+                onChange={(e) => setSelectedTemplate(e.target.value)}
+                className="w-full border-2 border-slate-800 bg-slate-50 text-slate-900 rounded-xl p-3 text-sm font-semibold outline-none focus:bg-white focus:ring-2 focus:ring-[#0F4C81] transition-all"
+              >
+                <option>Event QR Ticket Pass</option>
+                <option>Schedule & Venue Announcement</option>
+                <option>Feedback Survey Reminder</option>
+              </select>
+            </div>
+
+            {/* Dynamic Parameter Test Inputs */}
+            <div className="bg-[#F5F2EB] p-4 rounded-xl border-2 border-slate-300 space-y-3">
+              <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block">
+                Template Dynamic Variables
+              </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-800 mb-1">
+                    {"{{1}}"} Recipient Name
+                  </label>
+                  <input
+                    type="text"
+                    value={param1}
+                    onChange={(e) => setParam1(e.target.value)}
+                    className="w-full border-2 border-slate-800 bg-white text-slate-900 rounded-lg p-2.5 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#0F4C81]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-800 mb-1">
+                    {"{{2}}"} Event Title
+                  </label>
+                  <input
+                    type="text"
+                    value={param2}
+                    onChange={(e) => setParam2(e.target.value)}
+                    className="w-full border-2 border-slate-800 bg-white text-slate-900 rounded-lg p-2.5 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#0F4C81]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => alert("Broadcast scheduled successfully!")}
+              className="w-full bg-[#0F4C81] hover:bg-[#1A5B6E] text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition-all"
+            >
+              Dispatch Broadcast →
+            </button>
+          </div>
+
+          {/* RIGHT: Live Preview Frame (No robotic captions) */}
+          <div className="lg:col-span-5 bg-white p-6 rounded-2xl border-2 border-slate-300 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between border-b border-slate-200 pb-2 mb-4">
+                <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                  Live Preview
+                </h2>
+                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-300">
+                  WhatsApp Web
+                </span>
+              </div>
+
+              {/* Realistic Mobile View Canvas */}
+              <div className="bg-[#E5DDD5] rounded-3xl p-4 border-4 border-slate-800 min-h-[380px] shadow-inner flex flex-col justify-end">
+                <div className="bg-white rounded-xl overflow-hidden shadow-md max-w-[95%] border-l-4 border-[#25D366]">
+                  <div className="px-3.5 pt-3.5 text-xs font-bold text-slate-900 uppercase tracking-wider text-emerald-700">
+                    🎟️ {selectedTemplate}
+                  </div>
+
+                  <div className="p-3.5 space-y-2">
+                    <p className="text-sm text-slate-900 font-medium leading-relaxed">
+                      Hello {param1 || "{{1}}"}! Here is your entry pass for{" "}
+                      {param2 || "{{2}}"}. Show this pass at the main gate.
+                    </p>
+
+                    <p className="text-[10px] text-slate-500">
+                      TechNexus Community • Reply STOP to unsubscribe
+                    </p>
+
+                    <div className="flex justify-end items-center gap-1 text-[10px] text-slate-400">
+                      <span>22:15</span>
+                      <span className="text-blue-500 font-bold">✓✓</span>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-200 p-2.5 text-center bg-slate-50">
+                    <span className="text-xs font-bold text-blue-600">
+                      🔗 View QR Pass
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 p-3 bg-[#F5F2EB] rounded-xl border border-slate-300 text-xs text-slate-800 font-medium">
+              Targeting: <strong>{audienceTag}</strong>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
