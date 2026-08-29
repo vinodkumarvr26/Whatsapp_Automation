@@ -10,6 +10,36 @@ export default function BroadcastsPage() {
   const [param1, setParam1] = useState("Rahul Sharma");
   const [param2, setParam2] = useState("Annual Tech Summit 2026");
 
+
+  const handleDispatch = async () => {
+    try {
+      const response = await fetch("/api/broadcasts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          campaignName,
+          audienceTag,
+          selectedTemplate,
+          param1,
+          param2,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`Broadcast Launched! Campaign ID: ${data.campaign.id}`);
+      } else {
+        alert("Failed to launch broadcast.");
+      }
+    } catch (error) {
+      console.error("Error launching campaign:", error);
+      alert("Server error when launching campaign.");
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-[#F5F2EB] text-slate-900 font-sans">
       {/* Shared Navigation Sidebar - Deep Peacock Blue Theme */}
@@ -166,12 +196,12 @@ export default function BroadcastsPage() {
               </div>
             </div>
 
-            <button
-              onClick={() => alert("Broadcast scheduled successfully!")}
-              className="w-full bg-[#0F4C81] hover:bg-[#1A5B6E] text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition-all"
-            >
-              Dispatch Broadcast →
-            </button>
+           <button
+  onClick={handleDispatch}
+  className="w-full bg-[#0F4C81] hover:bg-[#1A5B6E] text-white font-bold py-3.5 rounded-xl shadow-md text-sm transition-all"
+>
+  Dispatch Broadcast →
+</button>
           </div>
 
           {/* RIGHT: Live Preview Frame (No robotic captions) */}
